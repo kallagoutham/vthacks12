@@ -14,6 +14,17 @@ const hello = async () => {
   return res;
 };
 
+const createProfile = async ({userProfile})=>{
+  var res;
+  try{
+    const response = await axios.post(`${configObj.apiUrl}/profile`,userProfile);
+    res =response.data
+  }catch(err){
+    console.log(err)
+  }
+  return res;
+}
+
 const getProfile = async (email) => {
   var res;
   try {
@@ -31,5 +42,6 @@ const getProfile = async (email) => {
 var apiObj = {
   hello,
   getProfile,
+  createProfile
 };
 export default apiObj;
