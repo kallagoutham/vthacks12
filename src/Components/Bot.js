@@ -17,6 +17,7 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
     smoking: "",
     alcohol: "",
     preferredFood: "",
+    physicalActivity: "", // Added field
     idealWeight: "",
     fitnessLevel: "",
   });
@@ -40,6 +41,8 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
       tempErrors.alcohol = "Alcohol consumption information is required";
     if (step === 5 && !answers.preferredFood)
       tempErrors.preferredFood = "Preferred food is required";
+    if (step === 5 && !answers.physicalActivity)
+      tempErrors.physicalActivity = "Physical activity is required"; // Added validation
     if (step === 6 && !answers.idealWeight)
       tempErrors.idealWeight = "Ideal weight is required";
     if (step === 6 && !answers.fitnessLevel)
@@ -58,7 +61,6 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
   };
 
   const handleNextStep = () => {
-    console.log(step)
     if (validate()) {
       setStep(step + 1);
     }
@@ -69,10 +71,14 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
       <div className="bot-message">
         {step === 1 && (
           <div>
-            <p>👋 Let's start with some basic info.</p>
+            <p>👋 Hello {userClass.firstName}, Let's Start your BetterYou Journey!!</p>
             <label>
               Gender *{" "}
-              <select name="gender" value={answers.gender} onChange={handleInputChange}>
+              <select
+                name="gender"
+                value={answers.gender}
+                onChange={handleInputChange}
+              >
                 <option value="">Select Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -99,7 +105,11 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
             <p>Tell me more about you.</p>
             <label>
               Religion *{" "}
-              <select name="religion" value={answers.religion} onChange={handleInputChange}>
+              <select
+                name="religion"
+                value={answers.religion}
+                onChange={handleInputChange}
+              >
                 <option value="">Select Religion</option>
                 {/* Add more religion options here */}
                 <option value="christianity">Christianity</option>
@@ -108,22 +118,34 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
                 <option value="buddhism">Buddhism</option>
                 <option value="other">Other</option>
               </select>
-              {errors.religion && <span className="error">{errors.religion}</span>}
+              {errors.religion && (
+                <span className="error">{errors.religion}</span>
+              )}
             </label>
             <label>
               Sexual Identity *{" "}
-              <select name="sexualIdentity" value={answers.sexualIdentity} onChange={handleInputChange}>
+              <select
+                name="sexualIdentity"
+                value={answers.sexualIdentity}
+                onChange={handleInputChange}
+              >
                 <option value="">Select Sexual Identity</option>
                 <option value="heterosexual">Heterosexual</option>
                 <option value="homosexual">Homosexual</option>
                 <option value="bisexual">Bisexual</option>
                 <option value="other">Other</option>
               </select>
-              {errors.sexualIdentity && <span className="error">{errors.sexualIdentity}</span>}
+              {errors.sexualIdentity && (
+                <span className="error">{errors.sexualIdentity}</span>
+              )}
             </label>
             <label>
-              Occupation *{" "}
-              <select name="occupation" value={answers.occupation} onChange={handleInputChange}>
+              Occupation*{" "}
+              <select
+                name="occupation"
+                value={answers.occupation}
+                onChange={handleInputChange}
+              >
                 <option value="">Select Occupation</option>
                 <option value="physical">Involves Physical Work</option>
                 <option value="rigorous">Rigorous Physical Work</option>
@@ -132,7 +154,9 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
                 <option value="deskJob">Desk Job</option>
                 <option value="lightWalking">Light Walking</option>
               </select>
-              {errors.occupation && <span className="error">{errors.occupation}</span>}
+              {errors.occupation && (
+                <span className="error">{errors.occupation}</span>
+              )}
             </label>
             <button onClick={handleNextStep}>Next</button>
           </div>
@@ -152,7 +176,7 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
               {errors.height && <span className="error">{errors.height}</span>}
             </label>
             <label>
-              Weight *{" "}
+              Weight*{" "}
               <input
                 type="number"
                 name="weight"
@@ -162,14 +186,16 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
               {errors.weight && <span className="error">{errors.weight}</span>}
             </label>
             <label>
-              Existing Medical Condition *{" "}
+              Existing Medical Condition*{" "}
               <input
                 type="text"
                 name="medicalCondition"
                 value={answers.medicalCondition}
                 onChange={handleInputChange}
               />
-              {errors.medicalCondition && <span className="error">{errors.medicalCondition}</span>}
+              {errors.medicalCondition && (
+                <span className="error">{errors.medicalCondition}</span>
+              )}
             </label>
             <button onClick={handleNextStep}>Next</button>
           </div>
@@ -179,25 +205,37 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
           <div>
             <p>Habits</p>
             <label>
-              Smoking *{" "}
-              <select name="smoking" value={answers.smoking} onChange={handleInputChange}>
+              Smoking*{" "}
+              <select
+                name="smoking"
+                value={answers.smoking}
+                onChange={handleInputChange}
+              >
                 <option value="">Select Smoking Frequency</option>
                 <option value="none">None</option>
                 <option value="fewCigarettes">Few Cigarettes</option>
                 <option value="regularly">Regularly</option>
               </select>
-              {errors.smoking && <span className="error">{errors.smoking}</span>}
+              {errors.smoking && (
+                <span className="error">{errors.smoking}</span>
+              )}
             </label>
             <label>
-              Alcohol Consumption *{" "}
-              <select name="alcohol" value={answers.alcohol} onChange={handleInputChange}>
+              Alcohol Consumption*{" "}
+              <select
+                name="alcohol"
+                value={answers.alcohol}
+                onChange={handleInputChange}
+              >
                 <option value="">Select Alcohol Consumption</option>
                 <option value="never">Never</option>
                 <option value="social">Social Drinker</option>
                 <option value="frequent">Frequent Consumer</option>
                 <option value="veryOften">Very Often</option>
               </select>
-              {errors.alcohol && <span className="error">{errors.alcohol}</span>}
+              {errors.alcohol && (
+                <span className="error">{errors.alcohol}</span>
+              )}
             </label>
             <button onClick={handleNextStep}>Next</button>
           </div>
@@ -207,14 +245,33 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
           <div>
             <p>Preferences</p>
             <label>
-              Preferred Food *{" "}
+              Preferred Food*{" "}
               <input
                 type="text"
                 name="preferredFood"
                 value={answers.preferredFood}
                 onChange={handleInputChange}
               />
-              {errors.preferredFood && <span className="error">{errors.preferredFood}</span>}
+              {errors.preferredFood && (
+                <span className="error">{errors.preferredFood}</span>
+              )}
+            </label>
+            <label>
+              Physical Activity* {/* New field */}
+              <select
+                name="physicalActivity"
+                value={answers.physicalActivity}
+                onChange={handleInputChange}
+              >
+                <option value="">Select Physical Activity</option>
+                <option value="none">None</option>
+                <option value="low">Low</option>
+                <option value="moderate">Moderate</option>
+                <option value="high">High</option>
+              </select>
+              {errors.physicalActivity && (
+                <span className="error">{errors.physicalActivity}</span>
+              )}
             </label>
             <button onClick={handleNextStep}>Next</button>
           </div>
@@ -222,25 +279,31 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
 
         {step === 6 && (
           <div>
-            <p>Goals</p>
+            <p>Fitness Goals</p>
             <label>
-              Ideal Weight *{" "}
+              Desired Weight*{" "}
               <input
                 type="number"
                 name="idealWeight"
                 value={answers.idealWeight}
                 onChange={handleInputChange}
               />
-              {errors.idealWeight && <span className="error">{errors.idealWeight}</span>}
+              {errors.idealWeight && (
+                <span className="error">{errors.idealWeight}</span>
+              )}
             </label>
             <label>
-              Fitness Level *{" "}
-              <input
-                type="text"
+              Fitness Level*{" "}
+              <select
                 name="fitnessLevel"
                 value={answers.fitnessLevel}
                 onChange={handleInputChange}
-              />
+              >
+                <option value="">Select Fitness Level</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
               {errors.fitnessLevel && (
                 <span className="error">{errors.fitnessLevel}</span>
               )}
@@ -248,28 +311,8 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
             <button onClick={handleFinish}>Finish</button>
           </div>
         )}
-        {step === 7 && (
-          <div>
-            <p>
-              Thanks for providing your information! Here's what you entered:
-            </p>
-            <ul className="bot-list">
-              <li>Gender: {answers.gender}</li>
-              <li>Age: {answers.age}</li>
-              <li>Religion: {answers.religion}</li>
-              <li>Sexual Identity: {answers.sexualIdentity}</li>
-              <li>Occupation: {answers.occupation}</li>
-              <li>Height: {answers.height}</li>
-              <li>Weight: {answers.weight}</li>
-              <li>Medical Condition: {answers.medicalCondition}</li>
-              <li>Smoking Frequency: {answers.smoking}</li>
-              <li>Alcohol Consumption: {answers.alcohol}</li>
-              <li>Preferred Food: {answers.preferredFood}</li>
-              <li>Ideal Weight: {answers.idealWeight}</li>
-              <li>Fitness Level: {answers.fitnessLevel}</li>
-            </ul>
-          </div>
-        )}
+
+       {step > 6 && answers}
       </div>
     </div>
   );

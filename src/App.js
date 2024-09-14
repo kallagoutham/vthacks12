@@ -8,6 +8,7 @@ import Home from './Components/Home';
 import { Route,Routes } from "react-router-dom";
 import apiObj from './Utils/apiCalls';
 import { useEffect,useState } from 'react';
+import './css/theme.css'; 
 
 function App() {
   const [hello,setHello]=useState()
@@ -21,6 +22,7 @@ function App() {
   return (
     <>
     {console.log(hello)}
+    
     <Navbar/>
     <BotSVG/>
     <Routes>

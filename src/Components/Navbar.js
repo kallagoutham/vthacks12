@@ -1,6 +1,9 @@
 import React from "react";
 import "../css/Navbar.css";
 import { useLogoutFunction } from "@propelauth/react";
+import ThemeProvider from "./ThemeProvider";
+import '../css/theme.css'; 
+
 
 const Navbar = () => {
   const logout = useLogoutFunction();
@@ -24,6 +27,7 @@ const Navbar = () => {
             Services
           </a>
         </li>
+        <li><ThemeProvider /></li>
         <li
           className="nav-item"
           onClick={() => logout(false)}
@@ -46,6 +50,7 @@ const Navbar = () => {
           </svg>
         </li>
       </ul>
+      
     </nav>
   );
 };
