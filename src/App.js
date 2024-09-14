@@ -1,7 +1,7 @@
 import './App.css';
-import Bot from './Bot';
-import BotSVG from './BotSVG';
-import Navbar from './Navbar';
+import Bot from './Components/Bot';
+import BotSVG from './Components/BotSVG';
+import Navbar from './Components/Navbar';
 import { Route,Routes } from "react-router-dom";
 
 function App() {

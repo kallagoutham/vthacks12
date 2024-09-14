@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { withRequiredAuthInfo } from "@propelauth/react";
-import "./css/Bot.css";
+import "../css/Bot.css";
 
 const Bot = withRequiredAuthInfo(({ userClass }) => {
   const [step, setStep] = useState(1);

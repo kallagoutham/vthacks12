@@ -1,5 +1,5 @@
 import React from "react";
-import "./css/BotSVG.css";
+import "../css/BotSVG.css";
 
 const BotSVG = () => (
   <div className="overlay-svg">

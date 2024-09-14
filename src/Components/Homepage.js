@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./css/Homepage.css";
+import "../css/Homepage.css";
 
 const Homepage = () => {
   const [scrollY, setScrollY] = useState(0);

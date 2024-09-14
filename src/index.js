@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { RequiredAuthProvider, RedirectToLogin } from "@propelauth/react";
 import {BrowserRouter} from 'react-router-dom'
-import Loading from "./Loading";
+import Loading from "./Components/Loading";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
