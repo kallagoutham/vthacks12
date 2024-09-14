@@ -1,0 +1,49 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+  }
+  
+  .image-container {
+    position: relative;
+    height: 100vh; /* Full viewport height */
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .background-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .text-over-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.5rem; /* Adjusted for better readability on 15.6" screen */
+    color: white;
+    text-align: center;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  
+  .lower-content {
+    height: 100vh;
+    padding: 50px;
+    background-color: #f0f0f0;
+    text-align: center;
+  }
+  
+  .lower-content h2 {
+    font-size: 2rem;
+  }
+  
+  .lower-content p {
+    font-size: 1.2rem;
+    margin-top: 20px;
+  }
+  

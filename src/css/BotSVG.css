@@ -1,0 +1,17 @@
+/* src/css/BotSVG.css */
+.overlay-svg {
+    position: fixed; /* Ensures the SVG stays in place */
+    bottom: 0; /* Aligns the SVG to the bottom */
+    right: 0; /* Aligns the SVG to the right */
+    width: 50px; /* Adjust the width as needed */
+    height: 50px; /* Adjust the height as needed */
+    margin: 16px; /* Adds some spacing from the edges */
+    z-index: 9999; /* Ensures it’s on top of other elements */
+  }
+  
+  .overlay-svg svg {
+    width: 100%; /* Makes the SVG fill the container */
+    height: 100%; /* Makes the SVG fill the container */
+    object-fit: contain; /* Maintains aspect ratio */
+  }
+  
