@@ -4,7 +4,6 @@ const config = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "*",
     "Access-Control-Allow-Methods": "*",
-    Authorization: "",
   },
 };
 const config1 = {
@@ -13,8 +12,14 @@ const config1 = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "*",
     "Access-Control-Allow-Methods": "*",
-    Authorization: "",
   },
 };
 
 const apiUrl = process.env.REACT_APP_API_URL ?? "http://localhost:5000/api";
+
+var configObj = {
+  config,
+  config1,
+  apiUrl,
+};
+export default configObj;

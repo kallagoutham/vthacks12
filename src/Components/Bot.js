@@ -262,9 +262,8 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
               <li>Height: {answers.height}</li>
               <li>Weight: {answers.weight}</li>
               <li>Medical Condition: {answers.medicalCondition}</li>
-              <li>Mental Health: {answers.mentalHealth}</li>
-              <li>Physical Activity: {answers.physicalActivity}</li>
-              <li>Habits: {answers.habits}</li>
+              <li>Smoking Frequency: {answers.smoking}</li>
+              <li>Alcohol Consumption: {answers.alcohol}</li>
               <li>Preferred Food: {answers.preferredFood}</li>
               <li>Ideal Weight: {answers.idealWeight}</li>
               <li>Fitness Level: {answers.fitnessLevel}</li>
