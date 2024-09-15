@@ -11,14 +11,14 @@ const BotSVG = withRequiredAuthInfo(({ userClass }) => {
     var res = "";
     try {
       // eslint-disable-next-line
+      setShowPrompt(false);
       const response = await apiObj.updateDietandWorkOutPlan(userClass.username, prompt);
-      console.log("Hiiii");
+      setPrompt('');
       res = response;
     } catch (err) {
       console.log("Error in updating diet and workout plan");
     }
-    setPrompt('');
-    setShowPrompt(false);
+  
     return res;
   };
 
