@@ -21,7 +21,7 @@ const CardPage = withRequiredAuthInfo(({ userClass }) => {
       return (
         <div key={mealType} className="meal">
           <h3>{mealType.charAt(0).toUpperCase() + mealType.slice(1)}</h3>
-          <p><strong>Dish:</strong> <a href={meal.dish_url} target="_blank" rel="noopener noreferrer">{meal?.dish_name ||"Kulfi"}</a></p>
+          <p><strong>Dish:</strong> <a href={meal?.dish_url} target="_blank" rel="noopener noreferrer">{meal?.dish_name ||"Kulfi"}</a></p>
           <p><strong>Calories:</strong> {meal?.calories ||"500"}</p>
           <p><strong>Time:</strong> {meal?.time||"24 min"}</p>
           <p><strong>Macros:</strong> Carbs: {meal?.macros?.carbs ||"200gm"}, Fat: {meal?.macros?.fat||"5gm"}, Protein: {meal?.macros?.protein ||"40gm"}</p>
