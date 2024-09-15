@@ -5,13 +5,16 @@ import { withRequiredAuthInfo } from '@propelauth/react';
 
 const CardPage = withRequiredAuthInfo(({ userClass }) => {
   const [profile, setProfile] = useState({});
+  const [tasks, setTasks] = useState([]);
   useEffect(() => {
     const getProfile = async () => {
       const response = await apiObj.getProfile(userClass.username);
       setProfile(response?.data);
     };
     getProfile();
-  })
+    handleFetchTasks();
+    // eslint-disable-next-line
+  }, [])
   const [activeTab, setActiveTab] = useState();
 
   const renderMeals = (meals) => {
@@ -21,10 +24,10 @@ const CardPage = withRequiredAuthInfo(({ userClass }) => {
       return (
         <div key={mealType} className="meal">
           <h3>{mealType.charAt(0).toUpperCase() + mealType.slice(1)}</h3>
-          <p><strong>Dish:</strong> <a href={meal?.dish_url} target="_blank" rel="noopener noreferrer">{meal?.dish_name ||"Kulfi"}</a></p>
-          <p><strong>Calories:</strong> {meal?.calories ||"500"}</p>
-          <p><strong>Time:</strong> {meal?.time||"24 min"}</p>
-          <p><strong>Macros:</strong> Carbs: {meal?.macros?.carbs ||"200gm"}, Fat: {meal?.macros?.fat||"5gm"}, Protein: {meal?.macros?.protein ||"40gm"}</p>
+          <p><strong>Dish:</strong> <a href={meal?.dish_url} target="_blank" rel="noopener noreferrer">{meal?.dish_name || "Kulfi"}</a></p>
+          <p><strong>Calories:</strong> {meal?.calories || "500"}</p>
+          <p><strong>Time:</strong> {meal?.time || "24 min"}</p>
+          <p><strong>Macros:</strong> Carbs: {meal?.macros?.carbs || "200gm"}, Fat: {meal?.macros?.fat || "5gm"}, Protein: {meal?.macros?.protein || "40gm"}</p>
         </div>
       );
     });
@@ -42,7 +45,7 @@ const CardPage = withRequiredAuthInfo(({ userClass }) => {
             <h3>Water Intake</h3>
             <p><strong>Morning:</strong> {meals?.water_intake?.morning || 2}</p>
             <p><strong>Afternoon:</strong> {meals?.water_intake?.afternoon || 2}</p>
-            <p><strong>Evening:</strong> {meals?.water_intake?.evening ||3}</p>
+            <p><strong>Evening:</strong> {meals?.water_intake?.evening || 3}</p>
           </div>
         </div>
       );
@@ -51,9 +54,9 @@ const CardPage = withRequiredAuthInfo(({ userClass }) => {
   const renderExercises = (exercises) => {
     return exercises.map((exercise, index) => (
       <div key={index} className="exercise">
-        <p><strong>Exercise:</strong> {exercise?.name ||"Pull Ups"}</p>
-        <p><strong>Reps:</strong> {exercise?.reps ||15}</p>
-        <p><strong>Sets:</strong> {exercise?.sets||3}</p>
+        <p><strong>Exercise:</strong> {exercise?.name || "Pull Ups"}</p>
+        <p><strong>Reps:</strong> {exercise?.reps || 15}</p>
+        <p><strong>Sets:</strong> {exercise?.sets || 3}</p>
       </div>
     ));
   };
@@ -74,6 +77,46 @@ const CardPage = withRequiredAuthInfo(({ userClass }) => {
     });
   };
 
+  const handleFetchTasks = async () => {
+    var date = new Date().toISOString().split('T')[0];
+    const response = await apiObj.getTasks(userClass.username, date);
+    setTasks(response);
+  }
+
+  const taskCompleteHandler = async (e) => {
+    const taskCardDiv = e.target.closest('.task-card');
+    const taskDetailsDiv = taskCardDiv.querySelector('.task-details');
+    const TaskPointsDiv = taskCardDiv.querySelector('.task-points');
+    const taskPoints = TaskPointsDiv.querySelector('p').innerText;
+    const taskPointsValue = taskPoints.split(':')[1];
+    const taskName = taskDetailsDiv.querySelector('h3').innerText;
+    const taskDescription = taskDetailsDiv.querySelector('p').innerText;
+    var date = new Date().toISOString().split('T')[0];
+    const response = await apiObj.completeTask(userClass.username, date,taskName,taskDescription,taskPointsValue);
+    if (response.status === 200) {  
+      handleFetchTasks();
+    } else {    
+      console.log("Error in completing task");
+    } 
+  }
+
+
+    const renderTasks = (tasks) => {
+    return tasks?.map((task, index) => (
+      <div key={index} className="task-card">
+        <div className="task-content">
+          <div className="task-details">
+            <h3>{task?.task_name || "Task Name"}</h3>
+            <p><strong>Description:</strong> {task?.Description || "Task Description"}</p>
+          </div>
+          <div className="task-points">
+            <p><strong>Points:</strong> {task?.points || "Task Points"}</p>
+            <button className="task-button" onClick={taskCompleteHandler}>Complete</button>
+          </div>
+        </div>
+      </div>
+    ));
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -82,7 +125,7 @@ const CardPage = withRequiredAuthInfo(({ userClass }) => {
       case 'workout':
         return <div className="content-box">{renderWorkoutPlan(profile?.workout_plan)}</div>;
       case 'tasks':
-        return <div className="content-box">{"Tasks"}</div>;
+        return <div className="content-box">{renderTasks(tasks)}</div>;
       default:
         return <div className="content-box">Select a tab to view content.</div>;
     }

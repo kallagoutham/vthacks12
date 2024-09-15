@@ -16,7 +16,8 @@ const Navbar = withRequiredAuthInfo(({ userClass }) => {
       setProfile(response?.data);
     };
     getProfile();
-  });
+    // eslint-disable-next-line
+  },[]);
   return (
     <nav className="navbar">
       <div className="navbar-brand">BetterYou</div>

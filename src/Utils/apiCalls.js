@@ -28,7 +28,7 @@ const createProfile = async (userProfile) => {
 const generateDietPlan = async (username, user_prompt = null) => {
   var res;
   try {
-    const response = await axios.post(`${configObj.apiUrl}/api/generate_diet_plan/${username}`,{user_propmt: user_prompt}, {
+    const response = await axios.post(`${configObj.apiUrl}/api/generate_diet_plan/${username}`, { user_propmt: user_prompt }, {
       ...configObj.config,
     });
     res = response.data
@@ -42,7 +42,7 @@ const generateWorkOutPlan = async (username, user_prompt = null) => {
   var res;
   try {
     console.log(username)
-    const response = await axios.post(`${configObj.apiUrl}/api/generate_workout_recommendation/${username}`, {user_propmt: user_prompt}, { ...configObj.config });
+    const response = await axios.post(`${configObj.apiUrl}/api/generate_workout_recommendation/${username}`, { user_propmt: user_prompt }, { ...configObj.config });
     res = response.data
   } catch (err) {
     console.log(err)
@@ -55,7 +55,7 @@ const getProfile = async (username) => {
   try {
     const response = await axios.get(`${configObj.apiUrl}/api/profile/${username}`, {
       ...configObj.config,
-      params: { user_name: username },
+      params: {},
     });
     res = response.data;
   } catch (err) {
@@ -64,11 +64,67 @@ const getProfile = async (username) => {
   return res;
 };
 
+const getTasks = async (username, date) => {
+  var res;
+  try {
+    const response = await axios.get(`${configObj.apiUrl}/api/tasks/${username}/${date}`, {
+      ...configObj.config,
+      params: {},
+    });
+    res = response.data;
+  } catch (err) {
+    res = err;
+  }
+  return res;
+};
+
+const completeTask = async (username, date, taskName, taskDescription, taskPointsValue) => {
+  var res;
+  try {
+    const response = await axios.get(`${configObj.apiUrl}/api/tasks/complete/${username}/${date}/${taskName}/${taskPointsValue}`, {
+      ...configObj.config,
+      params: {},
+    });
+    res = response.data;
+  } catch (err) {
+    res = err;
+  }
+  return res;
+};
+
+const updateDietandWorkOutPlan = async (username, prompt) => {
+  var res;
+  try {
+    const response = await axios.post(`${configObj.apiUrl}/api/generate_diet_plan/${username}`, { user_propmt: prompt }, {
+      ...configObj.config,
+    });
+    if (response.status === "success") {
+      res = response.data
+      try {
+         // eslint-disable-next-line
+        const response = await axios.post(`${configObj.apiUrl}/api/generate_workout_recommendation/${username}`, { user_propmt: prompt }, { ...configObj.config, });
+
+      } catch (err) {
+        console.log(err)
+      }
+      res = response.data;
+      console.log(res)
+      return res;
+    }
+  } catch (err) {
+    console.log(err)
+  }
+  return res;
+}
+
 var apiObj = {
   hello,
   getProfile,
   createProfile,
   generateDietPlan,
   generateWorkOutPlan,
+  getTasks,
+  completeTask,
+  updateDietandWorkOutPlan
 };
 export default apiObj;
