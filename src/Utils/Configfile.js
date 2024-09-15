@@ -16,7 +16,7 @@ const config1 = {
   },
 };
 
-const apiUrl = process.env.REACT_APP_API_URL ?? "https://850f-45-3-79-66.ngrok-free.app";
+const apiUrl = process.env.REACT_APP_API_URL ?? "http://localhost:5000";
 
 var configObj = {
   config,

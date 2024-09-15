@@ -27,6 +27,7 @@ function App() {
       <Navbar />
       <BotSVG />
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/card" element={<CardPage/>}/>
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
