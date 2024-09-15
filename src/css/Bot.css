@@ -11,6 +11,10 @@
   --text-color: #333;
   --list-background: #e9f7f7;
   --list-border: #ddd;
+  --header-background: #f1f1f1;
+  --header-text-color: #333;
+  --input-background: #fff;
+  --input-placeholder-color: #999;
 }
 
 /* Dark Theme */
@@ -26,6 +30,10 @@
   --text-color: #f9f9f9;
   --list-background: #555;
   --list-border: #666;
+  --header-background: #444;
+  --header-text-color: #f9f9f9;
+  --input-background: #333;
+  --input-placeholder-color: #bbb;
 }
 
 /* Apply Theme Variables */
@@ -36,64 +44,77 @@
   font-family: Arial, sans-serif;
   background: var(--bot-message-background);
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: var(--background-color);
 }
 
 .bot-message {
   background: var(--bot-message-background);
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 label {
   display: block;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-size: 16px;
   color: var(--text-color);
 }
 
 input[type="text"],
 input[type="number"] {
-  width: 88%;
-  padding: 8px;
+  width: calc(100% - 16px);
+  padding: 10px;
   margin-top: 5px;
   border: 2px solid var(--border-color);
   border-radius: 4px;
   font-size: 16px;
-  transition: border-color 0.3s;
+  background: var(--input-background);
+  color: var(--text-color);
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+input[type="text"]::placeholder,
+input[type="number"]::placeholder {
+  color: var(--input-placeholder-color);
 }
 
 input[type="text"]:focus,
 input[type="number"]:focus {
   border-color: var(--focus-border-color);
   outline: none;
+  background-color: #fff;
 }
 
 select {
-  width: 100%;
-  padding: 8px;
+  width: calc(100% - 16px);
+  padding: 10px;
   margin-top: 5px;
   border: 2px solid var(--border-color);
   border-radius: 4px;
   font-size: 16px;
-  transition: border-color 0.3s;
+  background: var(--input-background);
+  color: var(--text-color);
+  transition: border-color 0.3s, background-color 0.3s;
 }
 
 select:focus {
   border-color: var(--focus-border-color);
   outline: none;
+  background-color: #fff;
 }
 
 button {
-  padding: 10px 20px;
+  padding: 12px 20px;
   background-color: var(--button-background);
   color: white;
   border: none;
   border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
@@ -102,6 +123,7 @@ button:hover {
 
 button:active {
   transform: var(--button-active-transform);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .error {
@@ -126,8 +148,9 @@ p {
   background: var(--list-background);
   border: 1px solid var(--list-border);
   border-radius: 4px;
-  padding: 10px;
-  margin-bottom: 5px;
+  padding: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 600px) {
@@ -136,6 +159,12 @@ p {
   }
 
   button {
+    width: 100%;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select {
     width: 100%;
   }
 }
