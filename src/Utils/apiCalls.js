@@ -50,12 +50,12 @@ const generateWorkOutPlan = async (username, user_prompt = null) => {
   return res;
 }
 
-const getProfile = async (email) => {
+const getProfile = async (username) => {
   var res;
   try {
-    const response = await axios.get(`${configObj.apiUrl}/api/profile`, {
+    const response = await axios.get(`${configObj.apiUrl}/api/profile/${username}`, {
       ...configObj.config,
-      params: { email: email },
+      params: { user_name: username },
     });
     res = response.data;
   } catch (err) {

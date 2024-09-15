@@ -3,8 +3,10 @@ import { withRequiredAuthInfo } from "@propelauth/react";
 import apiObj from "../Utils/apiCalls";
 import "../css/Bot.css";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useNavigate } from "react-router-dom";
 
 const Bot = withRequiredAuthInfo(({ userClass }) => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -111,6 +113,7 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
       }
     }
     setLoading(false);
+    navigate("/card");
   };
 
   const handleInputChange = (e) => {
