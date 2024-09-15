@@ -9,6 +9,7 @@ import { Route, Routes } from "react-router-dom";
 import apiObj from "./Utils/apiCalls";
 import { useEffect, useState } from "react";
 import "./css/theme.css";
+import CardPage from "./Components/CardPage";
 
 function App() {
   // eslint-disable-next-line
@@ -26,6 +27,7 @@ function App() {
       <Navbar />
       <BotSVG />
       <Routes>
+        <Route path="/card" element={<CardPage/>}/>
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />

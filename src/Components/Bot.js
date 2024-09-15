@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { withRequiredAuthInfo } from "@propelauth/react";
 import apiObj from "../Utils/apiCalls";
 import "../css/Bot.css";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Bot = withRequiredAuthInfo(({ userClass }) => {
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [answers, setAnswers] = useState({
     user_name: userClass.username,
@@ -82,6 +84,7 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
   };
 
   const handleFinish = async () => {
+    setLoading(true);
     setStep(step + 1);
     var response;
     try {
@@ -106,6 +109,7 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
         }
       }
     }
+    setLoading(false);
   };
 
   const handleInputChange = (e) => {
@@ -120,6 +124,7 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
 
   return (
     <div className="bot-container">
+      {loading && <CircularProgress />}
       <div className="bot-message">
         {step === 1 && (
           <div>

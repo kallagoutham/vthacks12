@@ -1,3 +1,5 @@
+const { MongoClient } = require('mongodb');
+
 const config = {
   headers: {
     "Content-Type": "application/json",
@@ -15,11 +17,29 @@ const config1 = {
   },
 };
 
-const apiUrl = process.env.REACT_APP_API_URL ?? "https://3ffd-45-3-79-66.ngrok-free.app";
+async function fetchApiUrl() {
+  const uri = process.env.MONGODB_URI;
+  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+  try {
+    await client.connect();
+    const database = client.db('betteryou');
+    const collection = database.collection('ngrok');
+    const document = await collection.findOne({ key: 'url' });
+    return document ? document.value : "https://default-url.com";
+  } finally {
+    await client.close();
+  }
+}
+var apiUrl = "";
+(async () => {
+  apiUrl = await fetchApiUrl();
+  console.log(`API URL: ${apiUrl}`  );
+})();
 
 var configObj = {
   config,
   config1,
   apiUrl,
 };
-export default configObj;
+export default configObj;
