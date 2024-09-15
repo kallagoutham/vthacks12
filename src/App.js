@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import "./css/theme.css";
 
 function App() {
+  // eslint-disable-next-line
   const [hello, setHello] = useState();
   useEffect(() => {
     const hello = async () => {
@@ -21,15 +22,14 @@ function App() {
   }, []);
   return (
     <>
-      {console.log(hello)}
-
+      {/* {console.log(hello)} */}
       <Navbar />
       <BotSVG />
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
-        <Route path="/bot" element={<Bot />} />
+        <Route path="/survey" element={<Bot />} />
         <Route path="/retake-survey" element={<BotSVG />} />
       </Routes>
     </>

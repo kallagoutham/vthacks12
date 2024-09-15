@@ -14,10 +14,32 @@ const hello = async () => {
   return res;
 };
 
-const createProfile = async ({userProfile})=>{
+const createProfile = async (userProfile)=>{
   var res;
   try{
-    const response = await axios.post(`${configObj.apiUrl}/profile`,userProfile);
+    const response = await axios.post(`${configObj.apiUrl}/api/profile`,userProfile);
+    res =response.data
+  }catch(err){
+    console.log(err)
+  }
+  return res;
+}
+
+const generateDietPlan=async(userProfile,user_prompt=null)=>{
+  var res;
+  try{
+    const response = await axios.post(`${configObj.apiUrl}/api/generate_diet_plan/${userProfile.username}`,{user_propmt:user_prompt});
+    res =response.data
+  }catch(err){
+    console.log(err)
+  }
+  return res;
+}
+
+const generateWorkOutPlan=async(userProfile,user_prompt=null)=>{
+  var res;
+  try{
+    const response = await axios.post(`${configObj.apiUrl}/api/generate_workout_recommendation/${userProfile.username}`,{user_propmt:user_prompt});
     res =response.data
   }catch(err){
     console.log(err)
@@ -28,7 +50,7 @@ const createProfile = async ({userProfile})=>{
 const getProfile = async (email) => {
   var res;
   try {
-    const response = await axios.get(`${configObj.apiUrl}/profile`, {
+    const response = await axios.get(`${configObj.apiUrl}/api/profile`, {
       ...configObj.config,
       params: { email: email },
     });
@@ -42,6 +64,8 @@ const getProfile = async (email) => {
 var apiObj = {
   hello,
   getProfile,
-  createProfile
+  createProfile,
+  generateDietPlan,
+  generateWorkOutPlan,
 };
 export default apiObj;

@@ -7,28 +7,30 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
   const [step, setStep] = useState(1);
   const [errors, setErrors] = useState({});
   const [answers, setAnswers] = useState({
-    user_name: "",
-    email: "",
-    mobile: "",
+    user_name: userClass.username,
+    email: userClass.email,
+    // mobile: userClass.phone_number,
     address: "",
     country: "",
     gender: "",
     age: "",
     religion: "",
-    sexualIdentity: "",
+    sex: "",
     occupation: "",
     height: "",
     weight: "",
-    medicalCondition: "",
-    mentalHealth: "",
-    physicalActivityLevel: "",
+    medical_condition: "",
+    mental_health: "",
+    physical_activity_level: "",
     habits: "",
-    timeCommitment: "",
-    preferredFood: "",
-    preferredCuisine: "",
-    preferredExercise: "",
-    idealWeight: "",
-    fitnessLevel: "",
+    time_comitment: "",
+    preferred_food: "",
+    preferred_cusine: "",
+    preferred_exercise: "",
+    ideal_weight: "",
+    ideal_fitness_level: "",
+    diet_plan: {},
+    workout_plan: {},
   });
 
   const validate = () => {
@@ -47,45 +49,63 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
     if (step === 2 && !answers.age) tempErrors.age = "Age is required";
     if (step === 3 && !answers.religion)
       tempErrors.religion = "Religion is required";
-    if (step === 3 && !answers.sexualIdentity)
-      tempErrors.sexualIdentity = "Sexual Identity is required";
+    if (step === 3 && !answers.sex)
+      tempErrors.sex = "Sexual Identity is required";
     if (step === 3 && !answers.occupation)
       tempErrors.occupation = "Type of occupation is required";
     if (step === 4 && !answers.height) tempErrors.height = "Height is required";
     if (step === 4 && !answers.weight) tempErrors.weight = "Weight is required";
-    if (step === 4 && !answers.medicalCondition)
-      tempErrors.medicalCondition = "Medical condition is required";
+    if (step === 4 && !answers.medical_condition)
+      tempErrors.medical_condition = "Medical condition is required";
     // if (step === 5 && !answers.mentalHealth)
     //   tempErrors.mentalHealth = "Mental health information is required";
-    if (step === 5 && !answers.physicalActivityLevel)
-      tempErrors.physicalActivityLevel = "Physical activity level is required";
+    if (step === 5 && !answers.physical_activity_level)
+      tempErrors.physical_activity_level =
+        "Physical activity level is required";
     if (step === 6 && !answers.habits)
       tempErrors.habits = "Habits information is required";
-    if (step === 6 && !answers.timeCommitment)
-      tempErrors.timeCommitment = "Time commitment is required";
-    if (step === 7 && !answers.preferredFood)
-      tempErrors.preferredFood = "Preferred food is required";
-    if (step === 7 && !answers.preferredCuisine)
+    if (step === 6 && !answers.time_comitment)
+      tempErrors.time_comitment = "Time commitment is required";
+    if (step === 7 && !answers.preferred_food)
+      tempErrors.preferred_food = "Preferred food is required";
+    if (step === 7 && !answers.preferred_cusine)
       tempErrors.preferredCuisine = "Preferred cuisine is required";
-    if (step === 8 && !answers.preferredExercise)
-      tempErrors.preferredExercise = "Preferred exercise is required";
-    if (step === 8 && !answers.idealWeight)
-      tempErrors.idealWeight = "Ideal weight is required";
-    if (step === 8 && !answers.fitnessLevel)
-      tempErrors.fitnessLevel = "Fitness level is required";
+    if (step === 8 && !answers.preferred_exercise)
+      tempErrors.preferred_exercise = "Preferred exercise is required";
+    if (step === 8 && !answers.ideal_weight)
+      tempErrors.ideal_weight = "Ideal weight is required";
+    if (step === 8 && !answers.ideal_fitness_level)
+      tempErrors.ideal_fitness_level = "Fitness level is required";
 
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
 
   const handleFinish = async () => {
+    setStep(step + 1);
+    var response;
     try {
-      const response = await apiObj.createProfile();
-      console.log(response);
+      response = await apiObj.createProfile(answers);
     } catch (error) {
       console.error("Error creating profile:", error);
     }
-    setStep(step + 1);
+    if (response.message === "added user successfully") {
+      try {
+        response = await apiObj.generateDietPlan(answers, null);
+      } catch (err) {
+        console.log("error while generating diet plan");
+      }
+      if (response.status === "success") {
+        try {
+          response = await apiObj.generateWorkOutPlan(answers, null);
+        } catch (err) {
+          console.log("error while generating diet plan");
+        }
+        if (response.status === "success") {
+          console.log("Diet Plan and WorkOut Plan generated successfully...");
+        }
+      }
+    }
   };
 
   const handleInputChange = (e) => {
@@ -225,8 +245,8 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
             <label>
               Sexual Identity *{" "}
               <select
-                name="sexualIdentity"
-                value={answers.sexualIdentity}
+                name="sex"
+                value={answers.sex}
                 onChange={handleInputChange}
               >
                 <option value="">Select Sexual Identity</option>
@@ -235,9 +255,7 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
                 <option value="bisexual">Bisexual</option>
                 <option value="other">Other</option>
               </select>
-              {errors.sexualIdentity && (
-                <span className="error">{errors.sexualIdentity}</span>
-              )}
+              {errors.sex && <span className="error">{errors.sex}</span>}
             </label>
             <label>
               Type of Occupation*{" "}
@@ -290,12 +308,12 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
               <input
                 type="text"
                 placeholder="ex: I am a diabetic patient since last 3 years and use medication..."
-                name="medicalCondition"
-                value={answers.medicalCondition}
+                name="medical_condition"
+                value={answers.medical_condition}
                 onChange={handleInputChange}
               />
-              {errors.medicalCondition && (
-                <span className="error">{errors.medicalCondition}</span>
+              {errors.medical_condition && (
+                <span className="error">{errors.medical_condition}</span>
               )}
             </label>
             <button onClick={handleNextStep}>Next</button>
@@ -320,8 +338,8 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
             <label>
               {/* Daily Physical Activity level*{" "} */}
               <select
-                name="physicalActivityLevel"
-                value={answers.physicalActivityLevel}
+                name="physical_activity_level"
+                value={answers.physical_activity_level}
                 onChange={handleInputChange}
               >
                 <option value="">Select Level</option>
@@ -330,8 +348,8 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
                 <option value="moderate">Moderately active</option>
                 <option value="intense">Intensely active</option>
               </select>
-              {errors.physicalActivityLevel && (
-                <span className="error">{errors.physicalActivityLevel}</span>
+              {errors.physical_activity_level && (
+                <span className="error">{errors.physical_activity_level}</span>
               )}
             </label>
             <button onClick={handleNextStep}>Next</button>
@@ -356,12 +374,12 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
               Time Commitment* (in hrs){" "}
               <input
                 type="number"
-                name="timeCommitment"
-                value={answers.timeCommitment}
+                name="time_comitment"
+                value={answers.time_comitment}
                 onChange={handleInputChange}
               />
-              {errors.timeCommitment && (
-                <span className="error">{errors.timeCommitment}</span>
+              {errors.time_comitment && (
+                <span className="error">{errors.time_comitment}</span>
               )}
             </label>
             <button onClick={handleNextStep}>Next</button>
@@ -375,26 +393,26 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
               Preferred Food *{" "}
               <input
                 type="text"
-                name="preferredFood"
+                name="preferred_food"
                 placeholder="ex: Non Vegetarian excluding pork.."
-                value={answers.preferredFood}
+                value={answers.preferred_food}
                 onChange={handleInputChange}
               />
-              {errors.preferredFood && (
-                <span className="error">{errors.preferredFood}</span>
+              {errors.preferred_food && (
+                <span className="error">{errors.preferred_food}</span>
               )}
             </label>
             <label>
               Preferred Cuisine *{" "}
               <input
                 type="text"
-                name="preferredCuisine"
+                name="preferred_cusine"
                 placeholder="ex: Thai and Chineese..."
-                value={answers.preferredCuisine}
+                value={answers.preferred_cusine}
                 onChange={handleInputChange}
               />
-              {errors.preferredCuisine && (
-                <span className="error">{errors.preferredCuisine}</span>
+              {errors.preferred_cusine && (
+                <span className="error">{errors.preferred_cusine}</span>
               )}
             </label>
             <button onClick={handleNextStep}>Next</button>
@@ -421,24 +439,24 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
               Desired Weight*{" "}
               <input
                 type="number"
-                name="idealWeight"
-                value={answers.idealWeight}
+                name="ideal_weight"
+                value={answers.ideal_weight}
                 onChange={handleInputChange}
               />
-              {errors.idealWeight && (
-                <span className="error">{errors.idealWeight}</span>
+              {errors.ideal_weight && (
+                <span className="error">{errors.ideal_weight}</span>
               )}
             </label>
             <label>
               Desired Fitness Level*{" "}
               <input
-                name="fitnessLevel"
-                value={answers.fitnessLevel}
+                name="ideal_fitness_level"
+                value={answers.ideal_fitness_level}
                 onChange={handleInputChange}
                 placeholder="ex: I want to participate in marathon after 45 days...."
               ></input>
-              {errors.fitnessLevel && (
-                <span className="error">{errors.fitnessLevel}</span>
+              {errors.ideal_fitness_level && (
+                <span className="error">{errors.ideal_fitness_level}</span>
               )}
             </label>
             <button onClick={handleFinish}>Finish</button>
