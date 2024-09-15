@@ -10,6 +10,7 @@ import "../css/theme.css";
 const Navbar = withRequiredAuthInfo(({ userClass }) => {
   const logout = useLogoutFunction();
   const [profile, setProfile] = useState({});
+  var uname = userClass.username
   useEffect(() => {
     const getProfile = async () => {
       const response = await apiObj.getProfile(userClass.username);
@@ -32,7 +33,18 @@ const Navbar = withRequiredAuthInfo(({ userClass }) => {
             About
           </a>
         </li>
-        <li className="nav-item">Rewards = {profile?.rewards || "0"} pts</li>
+        {uname === "jagadeesh_r1" && (
+          <li className="nav-item">
+            <a href="/admin" className="nav-link">
+              Admin Console
+            </a>
+          </li>
+        )}
+        <li className="nav-item" style={{color: "white",fontWeight: "bold"}}>
+        {/* <a href="/about" className="nav-link"> */}
+        Rewards = {profile?.rewards || "0"} pts
+          {/* </a> */}
+          </li>
         <li>
           <ThemeProvider />
         </li>
