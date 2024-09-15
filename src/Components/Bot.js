@@ -85,6 +85,7 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
 
   const handleFinish = async () => {
     setLoading(true);
+    
     setStep(step + 1);
     var response;
     try {
@@ -92,15 +93,15 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
     } catch (error) {
       console.error("Error creating profile:", error);
     }
-    if (response.message === "added user successfully") {
+    if (response.message === ("added user successfully" || "username already existed, try another.")) {
       try {
-        response = await apiObj.generateDietPlan(answers, null);
+        response = await apiObj.generateDietPlan(userClass.username, null);
       } catch (err) {
         console.log("error while generating diet plan");
       }
       if (response.status === "success") {
         try {
-          response = await apiObj.generateWorkOutPlan(answers, null);
+          response = await apiObj.generateWorkOutPlan(userClass.username, null);
         } catch (err) {
           console.log("error while generating diet plan");
         }
@@ -124,8 +125,8 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
 
   return (
     <div className="bot-container">
-      {loading && <CircularProgress />}
       <div className="bot-message">
+      {loading && <CircularProgress />}
         {step === 1 && (
           <div>
             <p>
@@ -299,7 +300,7 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
               {errors.height && <span className="error">{errors.height}</span>}
             </label>
             <label>
-              Weight*(in lbs){" "}
+              Weight*(in kgs){" "}
               <input
                 type="number"
                 name="weight"
@@ -431,17 +432,17 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
               Preferred Exercise *{" "}
               <input
                 type="text"
-                name="preferredExercise"
+                name="preferred_exercise"
                 placeholder="ex: I prefer to do chest exercises..."
-                value={answers.preferredExercise}
+                value={answers.preferred_exercise}
                 onChange={handleInputChange}
               />
-              {errors.preferredExercise && (
-                <span className="error">{errors.preferredExercise}</span>
+              {errors.preferred_exercise && (
+                <span className="error">{errors.preferred_exercise}</span>
               )}
             </label>
             <label>
-              Desired Weight*{" "}
+              Desired Weight*(in kgs){" "}
               <input
                 type="number"
                 name="ideal_weight"
@@ -455,6 +456,7 @@ const Bot = withRequiredAuthInfo(({ userClass }) => {
             <label>
               Desired Fitness Level*{" "}
               <input
+              type="text"
                 name="ideal_fitness_level"
                 value={answers.ideal_fitness_level}
                 onChange={handleInputChange}

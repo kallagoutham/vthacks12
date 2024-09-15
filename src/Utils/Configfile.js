@@ -1,11 +1,10 @@
-const { MongoClient } = require('mongodb');
-
 const config = {
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "*",
     "Access-Control-Allow-Methods": "*",
+    "ngrok-skip-browser-warning":"*",
   },
 };
 const config1 = {
@@ -17,29 +16,11 @@ const config1 = {
   },
 };
 
-async function fetchApiUrl() {
-  const uri = process.env.MONGODB_URI;
-  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
-  try {
-    await client.connect();
-    const database = client.db('betteryou');
-    const collection = database.collection('ngrok');
-    const document = await collection.findOne({ key: 'url' });
-    return document ? document.value : "https://default-url.com";
-  } finally {
-    await client.close();
-  }
-}
-var apiUrl = "";
-(async () => {
-  apiUrl = await fetchApiUrl();
-  console.log(`API URL: ${apiUrl}`  );
-})();
+const apiUrl = process.env.REACT_APP_API_URL ?? "https://850f-45-3-79-66.ngrok-free.app";
 
 var configObj = {
   config,
   config1,
   apiUrl,
 };
-export default configObj;
+export default configObj;

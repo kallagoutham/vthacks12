@@ -25,10 +25,10 @@ const createProfile = async (userProfile)=>{
   return res;
 }
 
-const generateDietPlan=async(userProfile,user_prompt=null)=>{
+const generateDietPlan=async(username,user_prompt=null)=>{
   var res;
   try{
-    const response = await axios.post(`${configObj.apiUrl}/api/generate_diet_plan/${userProfile.username}`,{user_propmt:user_prompt});
+    const response = await axios.get(`${configObj.apiUrl}/api/generate_diet_plan/${username}`,{user_propmt:user_prompt});
     res =response.data
   }catch(err){
     console.log(err)
@@ -36,10 +36,11 @@ const generateDietPlan=async(userProfile,user_prompt=null)=>{
   return res;
 }
 
-const generateWorkOutPlan=async(userProfile,user_prompt=null)=>{
+const generateWorkOutPlan=async(username,user_prompt=null)=>{
   var res;
   try{
-    const response = await axios.post(`${configObj.apiUrl}/api/generate_workout_recommendation/${userProfile.username}`,{user_propmt:user_prompt});
+    console.log(username)
+    const response = await axios.get(`${configObj.apiUrl}/api/generate_workout_recommendation/${username}`,{user_propmt:user_prompt});
     res =response.data
   }catch(err){
     console.log(err)
